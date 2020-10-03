@@ -10,7 +10,7 @@ function lyricsUI(name){
         let lyricsOutput =document.getElementById('lyricsOutput');
         console.log(dataArray);
         lyricsOutput.innerHTML = '';
-            for (let i = 0; i<10; i++) {
+            for (let i = 0; i<5; i++) {
                 let title = dataArray[i].title;
                 let artist = dataArray[i].artist.name;
                 let p = document.createElement('p')
@@ -26,16 +26,9 @@ function lyricsUI(name){
                                     </div>
                                 </div>`
                 lyricsOutput.appendChild(p);
-                button.onclick = function () {
-                console.log('click');
-            }
+                button.onclick = lyricDetail(`${artist}`, `${title}`);
                 
             }
-            // let getLyricsBtn = document.getElementById('getLyric');
-            //     // for (let j = 0; j < getLyricsBtn.length; j++) {}
-            //     getLyricsBtn.addEventListener('click', function(){
-            //         console.log('click');
-            //     });
             
     })
 }
@@ -55,12 +48,13 @@ const lyricDetail = function(artist, title){
     fetch(`https://api.lyrics.ovh/v1/${artist}/${title}`)
     .then(response => response.json())
     .then(data => {
-        console.log(data);
+        console.log('song', data);
+        let outputLyrics = document.getElementById('outputLyrics');
+        if(!data.lyrics){
+            outputLyrics.innerText = 'No Lyrics Found';
+        }
+        else{
+            outputLyrics.innerHTML = data.lyrics;
+        }
     })
 }
-
-// function lyricsBtnEvent(e) {
-//     let dataTitle = e.target.getAttribute('dataTitle');
-//     let dataArtist = e.target.getAttribute('dataArtist');
-//     lyricDetail(dataTitle, dataArtist);
-// }
