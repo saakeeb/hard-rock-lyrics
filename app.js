@@ -21,7 +21,7 @@ function lyricsUI(name){
                                             <p class="author lead">Album by <span>${artist}</span></p>
                                         </div>
                                         <div class="col-md-3 text-md-right text-center">
-                                            <button class="btn btn-success getLyric" id="getLyric" dataArtist='${artist}' dataTitle='${title}' onclick=lyricDetail(artist, title)>Get Lyrics</button>
+                                            <button class="btn btn-success " >Get Lyrics</button>
                                         </div>
                                     </div>
                                 </div>`
@@ -49,12 +49,21 @@ const lyricDetail = function(artist, title){
     .then(response => response.json())
     .then(data => {
         console.log('song', data);
+        console.log('lyrics', data.lyrics);
+        console.log('loverGuru', `${artist}`,`${title}`);
         let outputLyrics = document.getElementById('outputLyrics');
-        if(!data.lyrics){
-            outputLyrics.innerText = 'No Lyrics Found';
-        }
-        else{
-            outputLyrics.innerHTML = data.lyrics;
-        }
+        let p = document.createElement("p");
+        p.innerHTML = `<div class="single-lyrics text-center">
+                            <button class="btn go-back">&lsaquo;</button>
+                            <h2 class="text-success mb-4">${title}</h2>
+                            <pre class="lyric text-white">${data.lyrics}</pre>
+                        </div>`
+        outputLyrics.appendChild(p);                
+        // if(data.lyrics == ''){
+        //     outputLyrics.innerText = 'No Lyrics Found';
+        // }
+        // else{
+        //     outputLyrics.innerHTML = data.lyrics;
+        // }
     })
 }
